@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Bookkeeper from the Future - Figma Style Redesign</title>
+    <style>
+      :root {
+        --ink: #171717;
+        --muted: #6f6b63;
+        --cream: #f4efe4;
+        --paper: #fbf9f4;
+        --line: #ded6c6;
+        --green: #4a6838;
+        --sage: #bdc5a6;
+        --moss: #26351f;
+        --clay: #b66d48;
+        --sand: #e7dcc9;
+        --white: #ffffff;
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .site-shell {
+        max-width: 1440px;
+        margin: 0 auto;
+        background: var(--paper);
+      }
+
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 24px clamp(18px, 4vw, 56px);
+        background: rgba(251, 249, 244, 0.88);
+        border-bottom: 1px solid rgba(222, 214, 198, 0.7);
+        backdrop-filter: blur(16px);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 18px;
+        font-weight: 800;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--ink);
+        color: var(--paper);
+        font-size: 14px;
+      }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 650;
+      }
+
+      .nav-cta,
+      .primary-button,
+      .secondary-button {
+        min-height: 44px;
+        border-radius: 999px;
+        padding: 0 18px;
+        font-weight: 750;
+        cursor: pointer;
+      }
+
+      .nav-cta,
+      .primary-button {
+        border: 1px solid var(--ink);
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .secondary-button {
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--ink);
+      }
+
+      .hero {
+        padding: 72px clamp(18px, 4vw, 56px) 36px;
+        text-align: center;
+      }
+
+      .kicker {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 32px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0 12px;
+        color: var(--green);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      h1 {
+        max-width: 980px;
+        margin: 24px auto 22px;
+        font-size: clamp(58px, 10.5vw, 154px);
+        line-height: 0.86;
+        letter-spacing: 0;
+      }
+
+      .hero-copy {
+        max-width: 620px;
+        margin: 0 auto 28px;
+        color: var(--muted);
+        font-size: clamp(17px, 2vw, 22px);
+        line-height: 1.48;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .hero-visual {
+        position: relative;
+        min-height: 520px;
+        margin: 46px clamp(18px, 4vw, 56px) 0;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.28), transparent 34%),
+          linear-gradient(135deg, #31412a 0%, #70805a 40%, #d7c7aa 100%);
+      }
+
+      .terrain {
+        position: absolute;
+        inset: auto -6% -1px;
+        height: 54%;
+        background:
+          radial-gradient(ellipse at 18% 88%, #152210 0 34%, transparent 35%),
+          radial-gradient(ellipse at 45% 92%, #29391f 0 39%, transparent 40%),
+          radial-gradient(ellipse at 76% 88%, #53663f 0 37%, transparent 38%),
+          linear-gradient(180deg, #d3c29f 0%, #efe4ce 100%);
+      }
+
+      .data-pin {
+        position: absolute;
+        display: grid;
+        min-width: 118px;
+        min-height: 72px;
+        place-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.34);
+        border-radius: 8px;
+        background: rgba(251, 249, 244, 0.18);
+        color: #fff;
+        font-weight: 850;
+        backdrop-filter: blur(10px);
+      }
+
+      .data-pin small {
+        display: block;
+        color: rgba(255, 255, 255, 0.74);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .pin-one {
+        top: 88px;
+        left: 13%;
+      }
+
+      .pin-two {
+        top: 166px;
+        right: 18%;
+      }
+
+      .pin-three {
+        top: 280px;
+        left: 28%;
+      }
+
+      .phone {
+        position: absolute;
+        right: clamp(22px, 11vw, 156px);
+        bottom: 44px;
+        width: min(300px, 38vw);
+        min-width: 230px;
+        min-height: 510px;
+        border: 12px solid #111;
+        border-radius: 42px;
+        background: #f8f5ed;
+        box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+      }
+
+      .phone-screen {
+        padding: 22px 18px;
+      }
+
+      .phone-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+        font-weight: 850;
+      }
+
+      .status-pill {
+        border-radius: 999px;
+        background: #dfe7ce;
+        color: var(--green);
+        padding: 7px 10px;
+        font-size: 12px;
+        font-weight: 850;
+      }
+
+      .phone h2 {
+        margin: 24px 0 12px;
+        font-size: 34px;
+        line-height: 0.96;
+      }
+
+      .phone p {
+        margin: 0 0 20px;
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .mini-chart {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        align-items: end;
+        gap: 7px;
+        height: 132px;
+        margin: 22px 0;
+        padding: 18px 14px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .mini-chart span {
+        border-radius: 999px 999px 0 0;
+        background: linear-gradient(180deg, var(--green), var(--sage));
+      }
+
+      .phone-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      section {
+        padding: 88px clamp(18px, 4vw, 56px);
+      }
+
+      .trusted {
+        padding-top: 44px;
+        padding-bottom: 44px;
+      }
+
+      .trusted-row {
+        display: grid;
+        grid-template-columns: 150px repeat(5, minmax(0, 1fr));
+        gap: 14px;
+        align-items: center;
+        color: var(--muted);
+      }
+
+      .logo {
+        display: grid;
+        min-height: 62px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        color: #8d8577;
+        font-weight: 850;
+      }
+
+      .section-heading {
+        display: grid;
+        grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1fr);
+        gap: 28px;
+        align-items: start;
+        margin-bottom: 44px;
+      }
+
+      .section-heading h2 {
+        margin: 0;
+        font-size: clamp(42px, 7vw, 96px);
+        line-height: 0.9;
+        letter-spacing: 0;
+      }
+
+      .section-heading p {
+        max-width: 620px;
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 20px;
+        line-height: 1.48;
+      }
+
+      .benefit-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+      }
+
+      .benefit-card {
+        min-height: 330px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--cream);
+        padding: 18px;
+      }
+
+      .card-visual {
+        display: grid;
+        height: 164px;
+        margin-bottom: 20px;
+        place-items: center;
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 24% 28%, rgba(255, 255, 255, 0.8), transparent 18%),
+          linear-gradient(135deg, #91a177, #e3d5bb);
+      }
+
+      .tiny-phone {
+        width: 82px;
+        height: 132px;
+        border: 7px solid #161616;
+        border-radius: 22px;
+        background:
+          linear-gradient(90deg, transparent 0 23%, rgba(74, 104, 56, 0.18) 24% 31%, transparent 32%),
+          linear-gradient(#fff, #f3efe4);
+      }
+
+      .benefit-card h3 {
+        margin: 0 0 10px;
+        font-size: 22px;
+      }
+
+      .benefit-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .big-picture {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 42px;
+        align-items: center;
+        background: var(--cream);
+      }
+
+      .landscape-card {
+        min-height: 560px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 18% 16%, rgba(255, 255, 255, 0.74), transparent 13%),
+          linear-gradient(135deg, #425734, #9ca783 52%, #e6d8bd);
+        position: relative;
+      }
+
+      .landscape-card::after {
+        content: "";
+        position: absolute;
+        inset: auto -8% 0;
+        height: 52%;
+        background:
+          radial-gradient(ellipse at 22% 100%, #182512 0 36%, transparent 37%),
+          radial-gradient(ellipse at 52% 100%, #415530 0 42%, transparent 43%),
+          radial-gradient(ellipse at 86% 100%, #778764 0 38%, transparent 39%);
+      }
+
+      .feature-list {
+        display: grid;
+        gap: 24px;
+      }
+
+      .feature-list h2 {
+        margin: 0 0 10px;
+        font-size: clamp(42px, 6vw, 88px);
+        line-height: 0.92;
+      }
+
+      .feature-list > p {
+        max-width: 560px;
+        color: var(--muted);
+        font-size: 20px;
+        line-height: 1.48;
+      }
+
+      .numbered {
+        display: grid;
+        gap: 1px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .numbered div {
+        display: grid;
+        grid-template-columns: 70px 1fr;
+        gap: 18px;
+        padding: 22px;
+        background: var(--paper);
+      }
+
+      .numbered b {
+        color: var(--green);
+      }
+
+      .numbered span {
+        color: var(--muted);
+        line-height: 1.45;
+      }
+
+      .specs {
+        background: var(--paper);
+      }
+
+      .comparison {
+        display: grid;
+        grid-template-columns: 0.9fr repeat(3, 1fr);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .comparison div {
+        min-height: 72px;
+        padding: 18px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        background: #fffdf8;
+      }
+
+      .comparison div:nth-child(4n) {
+        border-right: 0;
+      }
+
+      .comparison .head {
+        background: var(--ink);
+        color: var(--paper);
+        font-weight: 850;
+      }
+
+      .comparison .winner {
+        background: #edf1df;
+        color: var(--green);
+        font-weight: 850;
+      }
+
+      .comparison .muted {
+        color: var(--muted);
+      }
+
+      .quote {
+        display: grid;
+        grid-template-columns: 390px 1fr;
+        gap: 44px;
+        align-items: center;
+        background: var(--cream);
+      }
+
+      .sculpture {
+        min-height: 420px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 50% 35%, #fff 0 18%, transparent 19%),
+          radial-gradient(circle at 35% 64%, #cfc5b2 0 21%, transparent 22%),
+          radial-gradient(circle at 66% 68%, #817762 0 24%, transparent 25%),
+          linear-gradient(135deg, #e8ddc9, #f7f0e3);
+      }
+
+      blockquote {
+        margin: 0;
+        font-size: clamp(32px, 4.2vw, 62px);
+        line-height: 1;
+        letter-spacing: 0;
+      }
+
+      .quote cite {
+        display: block;
+        margin-top: 26px;
+        color: var(--muted);
+        font-style: normal;
+        font-weight: 700;
+      }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .step {
+        min-height: 230px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 24px;
+        background: #fffdf8;
+      }
+
+      .step span {
+        color: var(--green);
+        font-size: 14px;
+        font-weight: 850;
+      }
+
+      .step h3 {
+        margin: 34px 0 12px;
+        font-size: 28px;
+      }
+
+      .step p {
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .final-cta {
+        display: grid;
+        grid-template-columns: 1fr 360px;
+        gap: 36px;
+        align-items: stretch;
+        background: var(--moss);
+        color: var(--paper);
+      }
+
+      .final-cta h2 {
+        max-width: 760px;
+        margin: 0 0 18px;
+        font-size: clamp(48px, 8vw, 104px);
+        line-height: 0.88;
+      }
+
+      .final-cta p {
+        max-width: 560px;
+        color: rgba(251, 249, 244, 0.72);
+        font-size: 20px;
+        line-height: 1.5;
+      }
+
+      .final-cta .primary-button {
+        margin-top: 18px;
+        border-color: var(--paper);
+        background: var(--paper);
+        color: var(--moss);
+      }
+
+      .cta-art {
+        min-height: 430px;
+        border-radius: 8px;
+        background:
+          radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.82) 0 15%, transparent 16%),
+          linear-gradient(135deg, #76905c, #d1c29f);
+      }
+
+      footer {
+        display: flex;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 28px clamp(18px, 4vw, 56px);
+        border-top: 1px solid var(--line);
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      @media (max-width: 1050px) {
+        .nav-links {
+          display: none;
+        }
+
+        .benefit-grid,
+        .steps {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .big-picture,
+        .quote,
+        .final-cta,
+        .section-heading {
+          grid-template-columns: 1fr;
+        }
+
+        .trusted-row {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 720px) {
+        .hero {
+          padding-top: 46px;
+        }
+
+        .hero-visual {
+          min-height: 620px;
+          margin-left: 18px;
+          margin-right: 18px;
+        }
+
+        .phone {
+          right: 50%;
+          bottom: 30px;
+          transform: translateX(50%);
+          width: 250px;
+          min-width: 250px;
+        }
+
+        .data-pin {
+          min-width: 94px;
+          min-height: 58px;
+          font-size: 13px;
+        }
+
+        .pin-one {
+          left: 8%;
+        }
+
+        .pin-two {
+          right: 8%;
+        }
+
+        .pin-three {
+          top: 238px;
+          left: 12%;
+        }
+
+        section {
+          padding-top: 60px;
+          padding-bottom: 60px;
+        }
+
+        .benefit-grid,
+        .steps,
+        .trusted-row {
+          grid-template-columns: 1fr;
+        }
+
+        .comparison {
+          grid-template-columns: 1fr;
+        }
+
+        .comparison div,
+        .comparison div:nth-child(4n) {
+          border-right: 0;
+        }
+
+        footer {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-shell">
+      <nav class="nav">
+        <a href="#" class="brand" aria-label="Bookkeeper from the Future">
+          <span class="brand-mark">BF</span>
+          <span>Bookkeeper from the Future</span>
+        </a>
+        <div class="nav-links">
+          <a href="#benefits">Benefits</a>
+          <a href="#specs">Specifications</a>
+          <a href="#how-to">How-to</a>
+          <a href="#contact">Contact Us</a>
+        </div>
+        <a class="nav-cta" href="#contact">Learn More</a>
+      </nav>
+
+      <header class="hero">
+        <span class="kicker">Modern bookkeeping for future-ready businesses</span>
+        <h1>Browse your numbers clearly.</h1>
+        <p class="hero-copy">
+          Bookkeeper from the Future turns your books into a clean operating
+          view, so owners can spot cash trends, tax issues, and growth signals
+          before they become expensive surprises.
+        </p>
+        <div class="hero-actions">
+          <a class="primary-button" href="#contact">Book a strategy call</a>
+          <a class="secondary-button" href="#benefits">See benefits</a>
+        </div>
+      </header>
+
+      <div class="hero-visual" aria-label="Financial dashboard landscape mockup">
+        <div class="data-pin pin-one">98%<small>books closed</small></div>
+        <div class="data-pin pin-two">$42k<small>cash position</small></div>
+        <div class="data-pin pin-three">12<small>items to review</small></div>
+        <div class="terrain"></div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-top">
+              <span>BF</span>
+              <span class="status-pill">Ready</span>
+            </div>
+            <h2>June financial snapshot</h2>
+            <p>Revenue, expenses, cash flow, and owner notes in one monthly view.</p>
+            <div class="mini-chart">
+              <span style="height: 44%"></span>
+              <span style="height: 58%"></span>
+              <span style="height: 39%"></span>
+              <span style="height: 74%"></span>
+              <span style="height: 69%"></span>
+              <span style="height: 86%"></span>
+              <span style="height: 78%"></span>
+            </div>
+            <div class="phone-row"><span>Reconciled</span><b>100%</b></div>
+            <div class="phone-row"><span>Tax-ready reports</span><b>4</b></div>
+            <div class="phone-row"><span>Owner questions</span><b>2</b></div>
+          </div>
+        </div>
+      </div>
+
+      <section class="trusted" aria-label="Trusted by">
+        <div class="trusted-row">
+          <strong>Trusted by:</strong>
+          <div class="logo">Launch Co.</div>
+          <div class="logo">Northline</div>
+          <div class="logo">BrightDesk</div>
+          <div class="logo">Studio 48</div>
+          <div class="logo">MetricWorks</div>
+        </div>
+      </section>
+
+      <section id="benefits">
+        <div class="section-heading">
+          <h2>We’ve cracked the code.</h2>
+          <p>
+            The service is designed around the moments business owners actually
+            care about: clean books, clear reporting, faster decisions, and no
+            year-end scramble.
+          </p>
+        </div>
+        <div class="benefit-grid">
+          <article class="benefit-card">
+            <div class="card-visual"><div class="tiny-phone"></div></div>
+            <h3>Amplify clarity</h3>
+            <p>See what changed each month with owner-friendly notes, not accounting fog.</p>
+          </article>
+          <article class="benefit-card">
+            <div class="card-visual"><div class="tiny-phone"></div></div>
+            <h3>Control cash flow</h3>
+            <p>Track cash movement and upcoming obligations before they create pressure.</p>
+          </article>
+          <article class="benefit-card">
+            <div class="card-visual"><div class="tiny-phone"></div></div>
+            <h3>Remove tax stress</h3>
+            <p>Keep records organized all year so tax season feels procedural, not frantic.</p>
+          </article>
+          <article class="benefit-card">
+            <div class="card-visual"><div class="tiny-phone"></div></div>
+            <h3>Visualize growth</h3>
+            <p>Turn bookkeeping into useful dashboards for pricing, hiring, and planning.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="big-picture">
+        <div class="landscape-card" aria-label="Abstract business landscape visualization"></div>
+        <div class="feature-list">
+          <h2>See the big picture.</h2>
+          <p>
+            Bookkeeper from the Future turns scattered transactions into a
+            practical operating map, showing exactly where your business is
+            strong, leaky, or ready for the next move.
+          </p>
+          <div class="numbered">
+            <div><b>01</b><span><strong>Spot trends in seconds:</strong> no more digging through exports.</span></div>
+            <div><b>02</b><span><strong>Get everyone aligned:</strong> share simple reports with your team or CPA.</span></div>
+            <div><b>03</b><span><strong>Make planning concrete:</strong> connect books to cash, tax, and hiring decisions.</span></div>
+            <div><b>04</b><span><strong>Know your next step:</strong> every report ends with plain-English priorities.</span></div>
+          </div>
+          <a class="secondary-button" href="#contact">Discover More</a>
+        </div>
+      </section>
+
+      <section id="specs" class="specs">
+        <div class="section-heading">
+          <h2>Why choose BF?</h2>
+          <p>
+            A modern bookkeeping partner should do more than categorize
+            transactions. It should help you understand what the numbers mean.
+          </p>
+        </div>
+        <div class="comparison">
+          <div class="head">Capability</div>
+          <div class="head">Bookkeeper from the Future</div>
+          <div class="head">Traditional Bookkeeper</div>
+          <div class="head">DIY Software</div>
+          <div>Monthly close visibility</div>
+          <div class="winner">Clear status and notes</div>
+          <div class="muted">Usually email-based</div>
+          <div class="muted">Manual review required</div>
+          <div>Owner-ready insights</div>
+          <div class="winner">Plain-English priorities</div>
+          <div class="muted">Limited commentary</div>
+          <div class="muted">Raw numbers only</div>
+          <div>Cleanup and systems</div>
+          <div class="winner">Workflow improvement included</div>
+          <div class="muted">Case by case</div>
+          <div class="muted">Mostly unsupported</div>
+          <div>Tax readiness</div>
+          <div class="winner">Prepared throughout the year</div>
+          <div class="muted">Often year-end focused</div>
+          <div class="muted">Owner dependent</div>
+        </div>
+      </section>
+
+      <section class="quote">
+        <div class="sculpture" aria-label="Abstract balanced sphere sculpture"></div>
+        <div>
+          <blockquote>
+            “For the first time, our books felt like a decision tool instead of
+            a record of what already went wrong.”
+          </blockquote>
+          <cite>Sarah Patel, Founder at BrightDesk</cite>
+        </div>
+      </section>
+
+      <section id="how-to">
+        <div class="section-heading">
+          <h2>Map your money.</h2>
+          <p>
+            A simple process built for busy owners: assess the mess, install the
+            rhythm, then use the numbers to make better calls.
+          </p>
+        </div>
+        <div class="steps">
+          <article class="step">
+            <span>01</span>
+            <h3>Get started</h3>
+            <p>We review your current books, tools, and reporting gaps.</p>
+          </article>
+          <article class="step">
+            <span>02</span>
+            <h3>Clean and configure</h3>
+            <p>Your accounts, categories, and monthly close workflow get organized.</p>
+          </article>
+          <article class="step">
+            <span>03</span>
+            <h3>Grow with clarity</h3>
+            <p>You receive monthly numbers, notes, and practical next-step guidance.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" class="final-cta">
+        <div>
+          <h2>Connect with us.</h2>
+          <p>
+            Schedule a quick call to learn how Bookkeeper from the Future can
+            turn your financial data into a calmer, sharper way to run the
+            business.
+          </p>
+          <a class="primary-button" href="mailto:hello@bookkeeperfromthefuture.com">Learn More</a>
+        </div>
+        <div class="cta-art" aria-label="Abstract green financial landscape"></div>
+      </section>
+
+      <footer>
+        <strong>Bookkeeper from the Future</strong>
+        <span>© 2026. All Rights Reserved.</span>
+      </footer>
+    </div>
+  </body>
+</html>

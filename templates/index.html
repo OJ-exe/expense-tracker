@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Personal Expense Tracker</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="text-end mb-3">
+    <a href="/logout" class="btn btn-danger">Logout</a>
+</div>
+
+<div class="container mt-5">
+      <div class="text-end mb-3">
+         <a href="/export" class="btn btn-outline-primary">
+           ⬇ Download CSV
+    </a>
+</div>
+    <h1 class="text-center mb-4">💰 Personal Expense Tracker</h1>
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card text-bg-success shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Total Spent</h5>
+                    <h3>₹{{ total_spent }}</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card text-bg-primary shadow-sm">
+                <div class="card-body text-center">
+                    <h5>Spent This Month</h5>
+                    <h3>₹{{ monthly_spent }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card p-3 mb-4 shadow-sm">
+    <form method="GET" class="row g-3">
+
+        <div class="col-md-3">
+            <select name="category" class="form-select">
+                <option value="">All Categories</option>
+                <option>Food</option>
+                <option>Travel</option>
+                <option>Bills</option>
+                <option>Entertainment</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <input type="date" name="start_date" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+            <input type="date" name="end_date" class="form-control">
+        </div>
+
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-dark w-100">
+                Apply Filters
+            </button>
+        </div>
+
+    </form>
+</div>
+
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+            <h4 class="mb-3 text-center">Spending by Category</h4>
+            <div style="height:300px;">
+                <canvas id="categoryChart"></canvas>  
+            </div>
+        </div>
+    </div>
+    <div class="card shadow-sm mt-4">
+    <div class="card-body">
+        <h4 class="mb-3 text-center">Daily Sending</h4>
+        <div style="height:300px;">
+            <canvas id="monthlyChart"></canvas>
+        </div>
+    </div>
+</div>
+
+    <div class="card p-3 mb-3 shadow-sm">
+
+    <h5>💰 Monthly Budget</h5>
+
+    <form method="POST" action="/set_budget" class="d-flex gap-2">
+        <input type="number" name="budget" class="form-control" 
+               placeholder="Enter budget" required>
+
+        <button type="submit" class="btn btn-success">
+            Update
+        </button>
+    </form>
+
+    <p class="mt-2">Current Budget: ₹{{ budget }}</p>
+
+</div>
+    <h3>Spent This Month: ₹{{ monthly_spent }}</h3>
+
+    {% if overspent %}
+    <p style="color:red; font-weight:bold;">
+        ⚠ You have exceeded your monthly budget!
+    </p>
+    {% endif %}
+
+    <!-- Expense Form -->
+    <div class="card p-4 mb-4 shadow-sm">
+        <form method="POST" class="row g-3" action="/">
+             <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="recurring" value="1">
+             <label class="form-check-label">Recurring</label>
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="title" class="form-control" placeholder="Expense Title" required>
+            </div>
+
+            <div class="col-md-2">
+                <input type="number" name="amount" class="form-control" placeholder="Amount ₹" required>
+            </div>
+
+            <div class="col-md-3">
+                <select name="category" class="form-select" required>
+                    <option value="">Select Category</option>
+                    <option>Food</option>
+                    <option>Travel</option>
+                    <option>Bills</option>
+                    <option>Entertainment</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <input type="date" name="date" class="form-control" required>
+            </div>
+
+            <div class="col-md-2 text-center">
+                <button type="submit" class="btn btn-primary">Add Expense</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Expense Table -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h4 class="mb-3">Expense List</h4>
+
+            <table class="table table-striped table-bordered text-center align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Amount (₹)</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Recurring</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for id, title, amount, category, date, recurring in expenses %}
+                    <tr>
+                        <td>{{ title }}</td>
+                        <td>₹{{ amount }}</td>
+                        <td>{{ category }}</td>
+                        <td>{{ date }}</td>
+                        <td>
+                            {% if recurring|int == 1 %}
+                                 Yes
+                            {% else %}
+                                 No
+                            {% endif %}
+                        </td>
+                        <td class="d-flex justify-content-center gap-2">
+                            <a href="/edit/{{ id }}" class="btn btn-sm btn-warning">Edit</a>
+
+                            <form method="POST" action="/delete/{{ id }}">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+ 
+<div class="card p-3 mb-4 shadow-sm">
+
+    <h5>💡 Smart Insights</h5>
+
+    {% if highest_day %}
+        <p>📅 Highest spending day: <b>{{ highest_day }}</b> (₹{{ highest_amount }})</p>
+    {% endif %}
+
+    {% if top_category %}
+        <p>🏷 Most spending on: <b>{{ top_category }}</b> (₹{{ top_category_amount }})</p>
+    {% endif %}
+
+</div>
+<!-- Chart Script (Placed at Bottom So DOM Is Loaded) -->
+ <p>{{ category_data }}</p>
+<script>
+const categoryLabels = {{ categories|tojson }};
+const categoryValues = {{ amounts|tojson }};
+
+new Chart(document.getElementById("categoryChart"), {
+    type: "pie",
+    data: {
+        labels: categoryLabels,
+        datasets: [{
+            data: categoryValues
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+</script>
+<script>
+const monthLabels = {{ months|tojson }};
+const monthValues = {{ monthly_totals|tojson }};
+
+new Chart(document.getElementById("monthlyChart"), {
+    type: "line",
+    data: {
+        labels: monthLabels,
+        datasets: [{
+            label: "This Month",
+            data: monthValues,
+            fill: false,
+            tension: 0.3
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+</script>
+
+</body>
+</html>
